@@ -1,0 +1,59 @@
+body {
+	background-color: #d3d3d3;
+}
+
+nav {
+	background-color: #181818;
+	color: #00DA5A;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #00DA5A;
+}
+
+.jumbotron {
+	background-color: #181818;
+	color: #00DA5A;
+}
+
+hr {
+	background-color: #00DA5A;
+	margin-top: 0px;
+}
+
+h1 {
+	margin-top: 10px;
+}
+
+fieldset {
+	border: 2px solid grey;
+    border-radius: 5px;
+    background-color: white;
+}
+
+legend {
+	border: 1px solid black;
+	border-radius: 5px;
+	margin-left: 10px;
+	background-color: #333333;
+	color: white;
+}
+
+label {
+	margin-top: 10px;
+}
+
+.btn {
+	background-color: #181818;
+	color: #00DA5A;
+	border-radius: 5px;
+	margin-bottom: 50px;
+}
+
+input.form-control {
+	color: #00DA5A;
+}
+
+select.form-control {
+	color: #00DA5A;
+}
