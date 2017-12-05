@@ -1,5 +1,5 @@
 <?php
-$page = 'report';
+$page ='report';
 include_once ('protect.php')
 ?>
 

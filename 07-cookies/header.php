@@ -1,4 +1,5 @@
-    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-fixed-top">
+
+      <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-fixed-top">
 
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 
@@ -34,15 +35,16 @@
 
           <?php 
 
-          if (isset($_COOKIE['username'])) {
-
-            echo $_COOKIE['first'].' '.$_COOKIE['last'];
+          if (isset($_COOKIE["username"])) {
+			  
+            echo $_COOKIE["first"].' '.$_COOKIE["last"];
 
             echo ' | <a href="logout.php" class="login">Logout</a>';
 
+
           } else {
 
-            echo '<a href="login.php" class="login">Login</a>';
+			echo '<a href="login.php" class="login">Login</a>'; 
 
           } // end if
 

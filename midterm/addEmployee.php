@@ -1,7 +1,7 @@
 <?php
-  $page = 'addEmployee';
-  require_once ('authorize.php');
-  require_once('variables.php');
+require_once ('authorize.php');
+require_once('variables.php');
+$page = 'addEmployee';
 ?>
 
 <!DOCTYPE html>

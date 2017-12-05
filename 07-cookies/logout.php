@@ -1,12 +1,10 @@
 <?php
 // DELETE COOKIES
-    setcookie('username', '', time()-3600);
-    setcookie('first', '', time()-3600);
-    setcookie('last', '', time()-3600);
+    setcookie('username', '', time() - 3600, '/', '.aaronwilsonphoto.com');
+    setcookie('first', '', time() - 3600, '/', '.aaronwilsonphoto.com');
+    setcookie('last', '', time() - 3600, '/', '.aaronwilsonphoto.com');
 
    // REDIRECT
     header('Location: index.php');
-
-
 
 ?>

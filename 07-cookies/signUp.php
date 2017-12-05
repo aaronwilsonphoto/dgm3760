@@ -1,6 +1,75 @@
 <?php
-$page = 'signUp';
-?>
+$page ='signUp';
+
+// DATABASE VARIABLES
+include 'variables.php';
+
+// BUILD THE DATABASE CONNECTION
+$dbconnection = mysqli_connect(HOST, USER, PASSWORD, DB_NAME) or die ('connection failed');
+
+if (isset($_POST['submit'])) {
+
+$first = mysqli_real_escape_string($dbconnection,trim($_POST['first']));
+$last = mysqli_real_escape_string($dbconnection,trim($_POST['last']));
+$username = mysqli_real_escape_string($dbconnection,trim($_POST['username']));
+$password = mysqli_real_escape_string($dbconnection,trim($_POST['password']));
+$password2 = mysqli_real_escape_string($dbconnection,trim($_POST['password2']));
+
+$date = date("Y-m-d");
+
+// DOUBLE CHECK THAT WE HAVE VALUES
+if($password != $password2) {
+
+$feedback = '<div class="alert alert-danger" role="alert">
+           Passwords do not match. Please Retype Password.
+                </div>';
+
+       }
+if(!empty($username) && !empty($password) && !empty($password2) && ($password == $password2)) {
+
+// Make sure username is not already registered
+$query = "SELECT * FROM users WHERE username = '$username'";
+$alreadyexists = mysqli_query($dbconnection, $query) or die ('query failed');
+if (mysqli_num_rows($alreadyexists) == 0) {
+
+// INSERT DATA
+$query = "INSERT INTO users (first, last, username, password, date) VALUES ('$first', '$last', '$username', SHA('$password'), NOW())";
+
+mysqli_query($dbconnection, $query) or die ('insert query failed');
+
+
+// CONFIRMATION MESSAGE
+$feedback = '<div class="alert alert-success" role="alert">Your new account has been successfully created</div><p>Return to the <a href="index.php">main page</a></p>';
+
+// make cookies
+setcookie('username', $username, time() + (60*60*24*10), '/', '.aaronwilsonphoto.com'); // expires in 10 days
+setcookie('first', $first, time() + (60*60*24*10), '/', '.aaronwilsonphoto.com'); // expires in 10 days
+setcookie('last', $last, time() + (60*60*24*10), '/', '.aaronwilsonphoto.com'); // expires in 10 days
+		   
+// REDIRECT
+header('Location: index.php');
+
+// CLOSE DB CONNECTION
+mysqli_close($dbconnection);
+
+
+        } else {
+
+          $feedback ='<div class="alert alert-danger" role="alert">
+           An account already exists for this username. Please use a different username.
+                </div>';
+
+        } // end of already registered check
+
+      } // end of the empty check
+
+    } // end isset
+
+
+
+
+    ?>
+
 
 <!DOCTYPE html>
 
@@ -71,85 +140,8 @@ $page = 'signUp';
     <h2>Sign Up</h2>
 
     <hr />
-    <?php
-    // DATABASE VARIABLES
-    include 'variables.php';
-
-    // BUILD THE DATABASE CONNECTION
-    $dbconnection = mysqli_connect(HOST, USER, PASSWORD, DB_NAME) or die ('connection failed');
-
-    if (isset($_POST['submit'])) {
-
-      $first = mysqli_real_escape_string($dbconnection,trim($_POST['first']));
-
-      $last = mysqli_real_escape_string($dbconnection,trim($_POST['last']));
-
-      $username = mysqli_real_escape_string($dbconnection,trim($_POST['username']));
-
-      $password = mysqli_real_escape_string($dbconnection,trim($_POST['password']));
-
-      $password2 = mysqli_real_escape_string($dbconnection,trim($_POST['password2']));
-
-      $date = date("Y-m-d");
-
-      // DOUBLE CHECK THAT WE HAVE VALUES
-      if($password != $password2) {
-
-        echo '<div class="alert alert-danger" role="alert">
-           Passwords do not match. Please Retype Password.
-                </div>';
-
-       }
-
-      if(!empty($username) && !empty($password) && !empty($password2) && ($password == $password2)) {
-
-       // Make sure username is not already registered
-       $query = "SELECT * FROM users WHERE username = '$username'";
-
-       $alreadyexists = mysqli_query($dbconnection, $query) or die ('query failed');
-
-       if (mysqli_num_rows($alreadyexists) == 0) {
-
-        // INSERT DATA
-        $query = "INSERT INTO users (first, last, username, password, date) VALUES ('$first', '$last', '$username', SHA('$password'), NOW())";
-
-        mysqli_query($dbconnection, $query) or die ('insert query failed');
-
-
-        // CONFIRMATION MESSAGE
-        echo '<div class="alert alert-success" role="alert">Your new account has been successfully created</div>';
-
-        echo '<p>Return to the <a href="index.php">main page</a></p>';
-
-        // make cookies
-        setcookie('username', $username, time() + (60*60*24*30)); // expires in 30 days
-        setcookie('first', $first, time() + (60*60*24*30)); // expires in 30 days
-        setcookie('last', $last, time() + (60*60*24*30)); // expires in 30 days
-
-        // CLOSE DB CONNECTION
-        mysqli_close($dbconnection);
-
-        // EXIT PAGE
-        exit;
-
-
-
-        } else {
-
-          echo '<div class="alert alert-danger" role="alert">
-           An account already exists for this username. Please use a different username.
-                </div>';
-
-        } // end of already registered check
-
-      } // end of the empty check
-
-    } // end isset
-
-
-
-
-    ?>
+    
+    <?php echo $feedback; ?>
 
 <form action="signUp.php" method="POST">
 

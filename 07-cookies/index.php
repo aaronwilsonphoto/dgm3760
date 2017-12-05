@@ -1,5 +1,6 @@
 <?php
-$page = '';
+$page ='';
+$feedback = $_COOKIE['username'];
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +70,8 @@ $page = '';
     <br />
 
     <h2>Thank You For Choosing Innova</h2>
+    
+    <?php echo $feedback; ?>
 
     <hr />
 

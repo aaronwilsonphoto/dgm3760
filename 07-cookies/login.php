@@ -1,48 +1,37 @@
 <?php
 
-$page = 'login';
-
+$page ='login';
 require_once('variables.php');
-
 // default message to user
+$feedback = '<p>Not registered? <a style="text-decoration: underline;" href="signUp.php">Create an account</a></p>';
 
-  $feedback = '<p>Not registered? <a style="text-decoration: underline;" href="signUp.php">Create an account</a></p>';
+// If the user isn't logged in, try to log them in
+if (isset($_POST['submit'])) {
+// BUILD THE DATABASE CONNECTION
 
-  // If the user isn't logged in, try to log them in
+$dbconnection = mysqli_connect(HOST, USER, PASSWORD, DB_NAME) or die ('connection failed');
 
-  if (isset($_POST['submit'])) {
+// GRAB USER LOG IN DATA
 
-    // BUILD THE DATABASE CONNECTION
+$username = mysqli_real_escape_string($dbconnection,trim($_POST['username']));
 
-    $dbconnection = mysqli_connect(HOST, USER, PASSWORD, DB_NAME) or die ('connection failed');
+$password = mysqli_real_escape_string($dbconnection,trim($_POST['password']));
 
-    // GRAB USER LOG IN DATA
+// LOOK UP USERNAME AND PASSWORD IN DATABASE
 
-    $username = mysqli_real_escape_string($dbconnection,trim($_POST['username']));
+$query = "SELECT * FROM users WHERE username = '$username' AND password = SHA('$password')";
 
-    $password = mysqli_real_escape_string($dbconnection,trim($_POST['password']));
+$data = mysqli_query($dbconnection, $query) or die ('query failed');
 
-    // LOOK UP USERNAME AND PASSWORD IN DATABASE
+if (mysqli_num_rows($data) == 1) {
 
-    $query = "SELECT * FROM users WHERE username = '$username' AND password = SHA('$password')";
+$row = mysqli_fetch_array($data);
 
-    $data = mysqli_query($dbconnection, $query) or die ('query failed');
-
-    if (mysqli_num_rows($data) == 1) {
-      
-      $row = mysqli_fetch_array($data);
-
-      // save cookies
-
-      setcookie('username', $row['username'], time() + (60*60*24*30)); // expires in 30 days
-
-      setcookie('first', $row['first'], time() + (60*60*24*30)); // expires in 30 days
-
-      setcookie('last', $row['last'], time() + (60*60*24*30)); // expires in 30 days
-
-      header('Location: index.php');
-
-
+// save cookies
+setcookie('username', $row['username'], time() + (60*60*24*30), '/', '.aaronwilsonphoto.com'); // expires in 30 days
+setcookie('first', $row['first'], time() + (60*60*24*30), '/', '.aaronwilsonphoto.com'); // expires in 30 days
+setcookie('last', $row['last'], time() + (60*60*24*30), '/', '.aaronwilsonphoto.com'); // expires in 30 days
+header('Location: index.php');
 
     } else {
 
