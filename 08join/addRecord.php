@@ -68,7 +68,7 @@ mysqli_close($dbconnection);
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <br>
-            <h5>Innova Digital Services <br><small>08 - Join Tables</small></h5>
+            <h5>Innova Digital Services <br><small>Add Employee Record</small></h5>
           </div>
         </div>
       </div>
